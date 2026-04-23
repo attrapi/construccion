@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timeline ATTRAPI</title>
+  <link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+  <style>
+    :root{
+      --color-institucional:#691c32;--color-institucional-sec:#96606f;--color-link:#96606f;
+      --franja-guinda:70px;--t-line:rgba(255,255,255,.22);--t-line-strong:rgba(255,255,255,.45);
+      --t-bg:rgba(255,255,255,.05);--t-bg-2:rgba(0,0,0,.12);--t-bg-3:rgba(255,255,255,.03);
+      --t-txt:#fff;--t-txt-2:rgba(255,255,255,.88);--t-radius:14px;
+      --card-grad:linear-gradient(135deg,rgba(105,28,50,.92) 0%,rgba(139,42,67,.78) 55%,rgba(84,20,38,.92) 100%);
+      --card-border:rgba(255,255,255,.18);--txt-soft:rgba(255,255,255,.86);
+      --txt-softer:rgba(255,255,255,.72);--line-soft:rgba(255,255,255,.16);--line-strong:rgba(255,255,255,.28);
+    }
+    .tl-timemarker-content-container,.tl-timemarker-content-container-long,.tl-timemarker-content-container-small{background-color:var(--color-institucional);color:#fff;border-radius:4px;border:1px solid rgba(0,0,0,0.15)}
+    .tl-timemarker.tl-timemarker-with-end .tl-timemarker-content-container,.tl-timemarker.tl-timemarker-with-end .tl-timemarker-content-container-long,.tl-timemarker.tl-timemarker-with-end .tl-timemarker-content-container-small{background-color:var(--color-institucional-sec)}
+    .tl-text-content{margin-top:60px}
+    .tl-slide .tl-text-content a{color:var(--color-link);text-decoration:none;font-weight:600;border-bottom:1px dashed var(--color-link)}
+    .tl-slide .tl-text-content a:hover{text-decoration:underline}
+    html,body{background:#691C32;margin:0;padding:0}
+    body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:var(--franja-guinda);background:#691C32;pointer-events:none;z-index:-1}
+    .tl-timeline h2.tl-headline-title{white-space:nowrap}
+    .tl-media .tl-caption{position:absolute;top:0;left:0;right:0;margin:0;padding:12px 16px;background:rgba(105,28,50,.85);color:#fff;font-weight:700;text-transform:uppercase;z-index:20}
+    .tl-media .tl-media-content{padding-top:52px}
+    .titulo-foto{max-width:100%;padding:10px 14px;margin:10px 0 14px;font-size:large;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.12);color:#fff;font-weight:900;letter-spacing:.8px;text-transform:uppercase;line-height:1.1;box-shadow:none!important}
+    #timeline-embed .tl-media,#timeline-embed .tl-media-content-container,#timeline-embed .tl-media-content,#timeline-embed .tl-media-wrapper,#timeline-embed .tl-slide-content-container{background:#691C32!important}
+    #timeline-embed .tl-media .tl-caption{width:600px!important;max-width:calc(100% - 24px)!important;margin-top:8px}
+    #timeline-embed .tl-timemarker-media-container [class^="tl-icon-"],#timeline-embed .tl-timemarker-media-container [class*=" tl-icon-"]{display:none!important}
+    #timeline-embed .tl-slide .tl-text-content ul{list-style:none;padding-left:0;margin-left:0}
+    .timeline-wrap{width:100%;height:calc(100vh - var(--franja-guinda));min-height:650px;overflow:hidden;position:relative;--collapsed-safe-bottom:90px;--toggle-bottom:130px;z-index:1}
+    .timeline-wrap.is-prehide #timeline-embed{opacity:0}
+    #timeline-embed{width:100%;height:100%;transition:opacity .12s ease}
+    #timeline-embed .tl-timeline,#timeline-embed .tl-storyslider,#timeline-embed .tl-storyslider .tl-slider-container{background:#691C32!important}
+    .timeline-wrap.is-collapsed #timeline-embed .tl-timenav,.timeline-wrap.is-collapsed #timeline-embed .tl-timenav-wrapper,.timeline-wrap.is-collapsed #timeline-embed .tl-timenav-container,.timeline-wrap.is-collapsed #timeline-embed .tl-menubar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important}
+    .timeline-wrap.is-collapsed #timeline-embed .tl-storyslider{bottom:0!important;height:100%!important}
+    .timeline-toggle{position:absolute;right:14px;bottom:var(--toggle-bottom);z-index:99999;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(4px)}
+    .timeline-toggle:hover{background:rgba(0,0,0,.28);cursor:pointer!important}
+    #timeline-embed .tl-credit,#timeline-embed .tl-attribution,.tl-credit,.tl-attribution{display:none!important}
+    .timeline-wrap.is-prehide{--toggle-bottom:10px}
+    .timeline-wrap.is-prehide .timeline-toggle{opacity:0!important;pointer-events:none!important;transform:translateY(10px);transition:opacity .15s ease,transform .15s ease}
+    .tl-headline,.tl-headline-date{display:none}
+    .tl-text-content-container{margin-top:-30px}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato{width:100%!important;border-collapse:collapse!important;table-layout:fixed;color:var(--t-txt);border:1px solid var(--t-line-strong)!important;border-radius:var(--t-radius);overflow:visible!important;background:var(--t-bg);box-shadow:0 18px 40px rgba(0,0,0,.35),0 2px 0 rgba(255,255,255,.06) inset}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato th,#timeline-embed .tl-slide .tl-text-content .tabla-contrato td{padding:16px 14px;border-bottom:1px solid var(--t-line)!important;border-right:1px solid var(--t-line)!important;vertical-align:middle;line-height:1.25}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato th:last-child,#timeline-embed .tl-slide .tl-text-content .tabla-contrato td:last-child{border-right:none!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato tr:last-child th,#timeline-embed .tl-slide .tl-text-content .tabla-contrato tr:last-child td{border-bottom:none!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato>tbody>tr>th{width:34%;text-align:left;font-weight:900;background:linear-gradient(180deg,rgba(0,0,0,.16),rgba(0,0,0,.06))}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato td.valor{color:var(--t-txt-2);font-weight:700}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato .placeholder{display:inline-block;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.28);color:rgba(255,255,255,.82);letter-spacing:.1px}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato td[colspan="2"]{padding:0!important;border-right:none!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-contrato td[colspan="2"]>.tabla-contrato{border:none!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance{table-layout:fixed}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance tr:first-child th{background:var(--t-bg-2);font-weight:900;letter-spacing:.4px;padding:12px 10px}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance tr:first-child th:nth-child(1),#timeline-embed .tl-slide .tl-text-content .tabla-avance tr:first-child th:nth-child(2){border-right:2px solid var(--t-line-strong)!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance tr:nth-child(2) th{background:rgba(255,255,255,.04);font-weight:800;font-size:13px;padding:10px 6px;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.1;text-align:center}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance td{background:var(--t-bg-3);padding:10px 6px;text-align:center}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance tr:nth-child(2) th:nth-child(2),#timeline-embed .tl-slide .tl-text-content .tabla-avance tr:nth-child(3) td:nth-child(2){border-right:2px solid var(--t-line-strong)!important}
+    #timeline-embed .tl-slide .tl-text-content .tabla-avance tr:nth-child(2) th:nth-child(4),#timeline-embed .tl-slide .tl-text-content .tabla-avance tr:nth-child(3) td:nth-child(4){border-right:2px solid var(--t-line-strong)!important}
+    @media(hover:hover){#timeline-embed .tl-slide .tl-text-content .tabla-contrato>tbody>tr:hover>th,#timeline-embed .tl-slide .tl-text-content .tabla-contrato>tbody>tr:hover>td{background:rgba(255,255,255,.035)}}
+    #timeline-embed .tl-slide .tl-text-content .titulo-foto{display:inline-block;margin:10px 0 14px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06);color:#fff;font-weight:900;letter-spacing:.8px;text-transform:uppercase;line-height:1.1;box-shadow:0 14px 30px rgba(0,0,0,.30),0 2px 0 rgba(255,255,255,.06) inset;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+    .btn-link{background:linear-gradient(135deg,#691c32 0%,#8b2a43 55%,#541426 100%);color:#fff;border:1px solid rgba(255,255,255,.18);padding:.45rem .75rem;border-radius:.75rem;cursor:pointer;font:inherit;font-weight:600;box-shadow:0 10px 22px rgba(105,28,50,.22);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+    .btn-link:hover{filter:brightness(1.05);box-shadow:0 14px 28px rgba(105,28,50,.28);transform:translateY(-1px)}
+    .btn-link:active{transform:translateY(0)}
+    .btn-link .placeholder{color:inherit}
+    #timeline-embed .popbox{position:static!important;margin-top:10px!important;width:100%!important;max-width:100%!important;max-height:320px!important;overflow-y:auto!important;z-index:1!important;min-width:320px!important;background:linear-gradient(135deg,#691c32 0%,#8b2a43 55%,#541426 100%);border:1px solid rgba(255,255,255,.18);border-radius:14px;box-shadow:0 18px 38px rgba(105,28,50,.28);padding:10px;color:#fff}
+    #timeline-embed .popbox::-webkit-scrollbar{width:10px}
+    #timeline-embed .popbox::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:10px}
+    #timeline-embed .popbox::-webkit-scrollbar-track{background:rgba(0,0,0,.12)}
+    #timeline-embed .popbox .poplist{margin:0;padding:6px}
+    #timeline-embed .popbox .poplist>li{padding:10px 10px 8px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:#dadbdd;margin:8px 0;font-weight:900;letter-spacing:.5px;text-transform:uppercase;font-size:12px;line-height:1.15}
+    #timeline-embed .popbox .popsub{margin:8px 0 0;padding:0}
+    #timeline-embed .popbox .popsub>li{position:relative;padding:10px 12px 10px 14px;border-radius:12px;margin:8px 0 0;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.03)),linear-gradient(135deg,rgba(105,28,50,.92),rgba(139,42,67,.72),rgba(84,20,38,.78));border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:750;line-height:1.25;overflow-wrap:anywhere;word-break:break-word;color:rgba(243,231,235,.92)}
+    #timeline-embed .popbox .popsub>li::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:4px;border-radius:999px;background:linear-gradient(180deg,rgba(243,231,235,.75),rgba(243,231,235,.18));opacity:.95}
+    #timeline-embed .popbox .popsub>li::after{content:"";position:absolute;left:12px;right:12px;top:7px;height:1px;border-radius:999px;background:rgba(243,231,235,.18);opacity:.75}
+    @media(hover:hover){#timeline-embed .popbox .popsub>li:hover{transform:translateY(-1px);transition:transform .12s ease;filter:brightness(1.05)}}
+    #timeline-embed .popbox.js-popbox{max-height:0!important;opacity:0;transform:translateY(-6px);overflow:hidden!important;transition:max-height .65s ease,opacity .65s ease,transform .65s ease}
+    #timeline-embed .popbox.js-popbox.is-open{max-height:320px!important;opacity:1;transform:translateY(0);overflow-y:auto!important;width:90%!important}
+    #timeline-embed .tl-slide .tl-text-content .role-card{background:var(--card-grad)!important;border:1px solid var(--card-border)!important;border-left:4px solid rgba(255,255,255,.26)!important;border-radius:14px!important;padding:12px 14px!important;box-shadow:0 18px 38px rgba(0,0,0,.28)!important;margin:10px 0}
+    #timeline-embed .tl-slide .tl-text-content .role-title{color:var(--txt-softer)!important;font-size:12px!important;font-weight:900!important;letter-spacing:.9px!important;text-transform:uppercase!important;margin-bottom:6px!important}
+    #timeline-embed .tl-slide .tl-text-content .role-name{color:var(--txt-soft)!important;font-size:16px!important;font-weight:900!important;line-height:1.15!important}
+    #timeline-embed .tl-slide .tl-text-content .divider{height:1px!important;margin:14px 0!important;background:linear-gradient(90deg,rgba(255,255,255,0),var(--line-strong),rgba(255,255,255,0))!important}
+    #timeline-embed a.tl-makelink[href^="mailto:"]{pointer-events:none!important;cursor:text!important;text-decoration:none!important;border-bottom:none!important;color:inherit!important;display:inline!important;max-width:none!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;word-break:break-all!important}
+    #loading-overlay{position:fixed;inset:0;background:#691C32;display:flex;align-items:center;justify-content:center;z-index:99999;transition:opacity .4s ease}
+    #loading-overlay.fade-out{opacity:0;pointer-events:none}
+    .loader{color:#fff;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .loader::after{content:'';display:inline-block;width:20px;text-align:left;animation:dots 1.4s steps(4,end) infinite}
+    @keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+  </style>
+</head>
+<body>
+  <div id="loading-overlay"><div class="loader">Cargando línea del tiempo</div></div>
+  <div id="timeline-wrap" class="timeline-wrap is-prehide">
+    <div id="timeline-embed"></div>
+    <button class="timeline-toggle" id="toggle-timeline" type="button" aria-expanded="true">Mostrar Cronología</button>
+  </div>
+  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+  <script>
+  // =====================================================
+  // CAMBIA ESTA URL POR TU CSV PUBLICADO DESDE GOOGLE DRIVE
+  // =====================================================
+  var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThl1JtFhTgef_fqrUYbLFmXjYP-cCd3gpxwcx6eduzP5Mi6gMKVkX9ySWZCFb1i0fBsrOfgBtcQNAr/pub?gid=0&single=true&output=csv';
+
+  function parseCSV(t){var r=[],c='',q=false;for(var i=0;i<t.length;i++){var ch=t[i];if(ch==='"'){if(q&&t[i+1]==='"'){c+='"';i++}else{q=!q}}else if(ch===','&&!q){r.push(c);c=''}else if((ch==='\n'||ch==='\r')&&!q){if(ch==='\r'&&t[i+1]==='\n')i++;r.push(c);c='';r.push('__ROW__')}else{c+=ch}}if(c)r.push(c);var res=[],row=[];for(var x of r){if(x==='__ROW__'){if(row.length>0)res.push(row);row=[]}else{row.push(x.trim())}}if(row.length>0)res.push(row);return res}
+
+  function csvToObjects(p){var h=p[0];return p.slice(1).map(function(r){var o={};h.forEach(function(k,i){o[k]=(r[i]||'').trim()});return o})}
+
+  function protectEmail(e){if(!e)return'';var p=e.split('@');if(p.length!==2)return e;var d=p[1].split('.');return'<span class="no-autolink">Correo: <span>'+p[0]+'</span><span>@</span><span>'+d.join('</span><span>.</span><span>')+'</span></span>'}
+
+  function buildSlideHTML(d){
+    var fa=d['Fecha Avance']||'';
+    return '<table class="tabla-contrato"><tr><th>Contrato</th><td class="valor pop-wrap"><span class="placeholder">'+
+    (d['Contrato']||'')+'</span></td></tr>'+
+    '<tr><th>Residente de obra</th><td class="valor pop-wrap">'+
+    '<button type="button" class="btn-link js-popbtn" aria-expanded="false"><span class="placeholder">'+(d['Residente de Obra']||'')+'</span></button>'+
+    '<div class="popbox js-popbox" hidden><ul class="poplist"><li><ul class="popsub"><li>'+protectEmail(d['Residente Email'])+'</li></ul></li></ul></div></td></tr>'+
+    '<tr><th>Diseño y Construcción</th><td class="valor pop-wrap">'+
+    '<button type="button" class="btn-link js-popbtn" aria-expanded="false"><span class="placeholder">'+(d['Empresa Diseño y Construcción']||'')+'</span></button>'+
+    '<div class="popbox js-popbox" hidden><ul class="poplist">'+
+    '<li>Representante Legal<ul class="popsub"><li>'+(d['Representante Legal']||'')+'</li></ul></li>'+
+    '<li>Director de Proyecto<ul class="popsub"><li>'+(d['Director de Proyecto']||'Por definir')+'</li></ul></li>'+
+    '<li>Superintendente<ul class="popsub"><li>'+(d['Superintendente D&C']||'')+'</li><li>'+protectEmail(d['Superintendente D&C Email'])+'</li></ul></li>'+
+    '</ul></div></td></tr>'+
+    '<tr><th>Supervisión externa</th><td class="valor pop-wrap">'+
+    '<button type="button" class="btn-link js-popbtn" aria-expanded="false"><span class="placeholder">'+(d['Empresa Supervisión Externa']||'')+'</span></button>'+
+    '<div class="popbox js-popbox" hidden><ul class="poplist">'+
+    '<li>Superintendente<ul class="popsub"><li>'+(d['Superintendente Supervisión']||'')+'</li><li>'+protectEmail(d['Superintendente Supervisión Email'])+'</li></ul></li>'+
+    '</ul></div></td></tr>'+
+    '<tr><td colspan="2" style="padding:0;"><table class="tabla-contrato tabla-avance" style="width:100%;border-collapse:collapse;">'+
+    '<colgroup><col style="width:18%"><col style="width:18%"><col style="width:25%"><col style="width:25%"><col style="width:16.66%"><col style="width:16.66%"><col style="width:16.66%"></colgroup>'+
+    '<tr><th colspan="2" style="text-align:center">Plazo</th><th colspan="2" style="text-align:center">Importe</th><th colspan="3" style="text-align:center">Avance '+fa+'</th></tr>'+
+    '<tr><th style="text-align:center">Inicio</th><th style="text-align:center">Fin</th><th style="text-align:center">Anticipo</th><th style="text-align:center">Contrato</th><th style="text-align:center">Físico</th><th style="text-align:center">Financiero</th><th style="text-align:center">Desviación</th></tr>'+
+    '<tr style="font-size:9px">'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Plazo Inicio']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Plazo Fin']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Anticipo']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Importe Contrato']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Avance Físico']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Avance Financiero']||'')+'</span></td>'+
+    '<td class="valor" style="text-align:center"><span class="placeholder">'+(d['Desviación']||'')+'</span></td>'+
+    '</tr></table></td></tr></table>';
+  }
+
+  function buildTimelineJSON(rows){
+    var events=[];
+    for(var i=0;i<rows.length;i++){
+      var d=rows[i];
+      var headline=d['Headline']||'';
+      if(!headline)continue;
+      var sub=d['Subtitulo (KM)']||'';
+      var mc=d['Media Caption']||(headline+(sub?' - '+sub:''));
+      var evt={start_date:{},text:{headline:headline,text:buildSlideHTML(d)},media:{url:d['Media (URL imagen)']||'',caption:'<span class="titulo-foto">'+mc+'</span>'},background:{color:'#691C32'}};
+      if(d['Year Inicio']){evt.start_date.year=parseInt(d['Year Inicio']);if(d['Month Inicio'])evt.start_date.month=parseInt(d['Month Inicio']);if(d['Day Inicio'])evt.start_date.day=parseInt(d['Day Inicio'])}
+      if(d['Year Fin']){evt.end_date={year:parseInt(d['Year Fin'])};if(d['Month Fin'])evt.end_date.month=parseInt(d['Month Fin']);if(d['Day Fin'])evt.end_date.day=parseInt(d['Day Fin'])}
+      events.push(evt);
+    }
+    var titleSlide={text:{headline:'',text:'<div class="role-card"><div class="role-title">Director de Construcción A</div><div class="role-name">Blanca Estela Aburto García</div></div><div class="divider"></div><div class="role-card"><div class="role-title">Subdirector de Segmentos 13, 14 y 15 "B"</div><div class="role-name">Manuel Morgado Pérez</div></div><div class="divider"></div><div class="role-card"><div class="role-title">Subdirector de Segmentos 16, 17, 18, 19 Y 20</div><div class="role-name">Vidal Elías Guzmán Díaz</div></div>'},media:{url:'https://drive.google.com/file/d/12ob8oiFcV21j-O_nGtj6v7bJa5RIDVJh/view?usp=sharing',caption:'<span class="titulo-foto">Tren Saltillo - Nuevo Laredo</span>'},background:{color:'#691C32'}};
+    return{title:titleSlide,events:events};
+  }
+
+  async function init(){
+    try{
+      var resp=await fetch(CSV_URL);
+      var text=await resp.text();
+      var parsed=parseCSV(text);
+      var rows=csvToObjects(parsed);
+      var data=buildTimelineJSON(rows);
+      window.timeline=new TL.Timeline('timeline-embed',data,{language:'es',initial_zoom:0,font:'Default'});
+      setTimeout(function(){var o=document.getElementById('loading-overlay');o.classList.add('fade-out');setTimeout(function(){o.remove()},500)},800);
+    }catch(err){
+      console.error('Error:',err);
+      document.getElementById('loading-overlay').innerHTML='<div style="color:#fff;text-align:center;padding:40px"><h2>Error al cargar datos</h2><p>Verifica que la URL del CSV esté correcta y publicada.</p><p style="opacity:.6;font-size:12px">'+err.message+'</p></div>';
+    }
+  }
+  init();
+
+  var wrap=document.getElementById('timeline-wrap');
+  var btn=document.getElementById('toggle-timeline');
+  function refreshTimelineHard(){requestAnimationFrame(function(){void wrap.offsetHeight;if(window.timeline)window.timeline.updateDisplay();setTimeout(function(){if(window.timeline)window.timeline.updateDisplay()},60);setTimeout(function(){if(window.timeline)window.timeline.updateDisplay()},220)})}
+  function updateToggleOffset(){if(wrap.classList.contains('is-collapsed')){wrap.style.setProperty('--toggle-bottom','10px');return true}var nav=document.querySelector('#timeline-embed .tl-timenav');if(!nav)return false;var h=Math.ceil(nav.getBoundingClientRect().height);if(h<=0)return false;wrap.style.setProperty('--toggle-bottom',(h+10)+'px');return true}
+  (function(){var tries=0;var tick=function(){tries++;var nav=document.querySelector('#timeline-embed .tl-timenav');if((nav&&nav.getBoundingClientRect().height>0)||tries>=240){wrap.classList.add('is-collapsed');wrap.classList.remove('is-prehide');btn.textContent='Mostrar Cronología';btn.setAttribute('aria-expanded','false');wrap.style.setProperty('--toggle-bottom','10px');refreshTimelineHard();return}requestAnimationFrame(tick)};requestAnimationFrame(tick)})();
+  btn.addEventListener('click',function(){var c=!wrap.classList.contains('is-collapsed');wrap.classList.toggle('is-collapsed',c);btn.textContent=c?'Mostrar Cronología':'OCULTAR';btn.setAttribute('aria-expanded',String(!c));if(c)wrap.style.setProperty('--toggle-bottom','10px');else updateToggleOffset();refreshTimelineHard()});
+  window.addEventListener('resize',function(){updateToggleOffset();refreshTimelineHard()});
+  new MutationObserver(function(){updateToggleOffset()}).observe(document.getElementById('timeline-embed'),{childList:true,subtree:true});
+
+  (function(){var DUR=650;function closeBox(b){if(!b)return;b.classList.remove('is-open');if(b._ht)clearTimeout(b._ht);b._ht=setTimeout(function(){b.hidden=true},DUR)}function openBox(b){if(!b)return;if(b._ht)clearTimeout(b._ht);b.hidden=false;requestAnimationFrame(function(){b.classList.add('is-open')})}function closeAll(ex){document.querySelectorAll('#timeline-embed .js-popbox').forEach(function(b){if(b===ex)return;closeBox(b)});document.querySelectorAll('#timeline-embed .js-popbtn').forEach(function(b){b.setAttribute('aria-expanded','false')});if(ex){var w=ex.closest('.pop-wrap')||ex.closest('td');var b=w?w.querySelector('.js-popbtn'):null;if(b)b.setAttribute('aria-expanded','true')}}document.addEventListener('click',function(e){var b=e.target.closest('#timeline-embed .js-popbtn');var inside=e.target.closest('#timeline-embed .js-popbox');if(inside)return;if(b){var w=b.closest('.pop-wrap')||b.closest('td');var box=w?w.querySelector('.js-popbox'):null;if(!box)return;var isOpen=!box.hidden&&box.classList.contains('is-open');if(isOpen){b.setAttribute('aria-expanded','false');closeBox(box)}else{closeAll(box);b.setAttribute('aria-expanded','true');openBox(box)}e.preventDefault();e.stopPropagation();return}closeAll()},true);document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()})})();
+  </script>
+</body>
+</html>
